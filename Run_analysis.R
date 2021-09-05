@@ -1,3 +1,4 @@
+#loading the "dplyr" library
 
 library(dplyr)
 
@@ -9,7 +10,7 @@ setwd("C:/Users/mmucyberjaya/Documents/R-Studio/R-programming_Hopkin Uni")
 ziped_url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip "
 download.file(ziped_url, destfile = "./fprojectfile.zip")
 
-list.files() #list of files in the given directoryfile.
+list.files() #list of files in the given directory file.
 zfp<- file.choose("fprojectfile.zip")
 
 #the downloaded dataset is in a zip format, hence it needs to be unzipped
@@ -75,15 +76,16 @@ mean_and_std <- (grepl("activityID", colNames) |
 
 
 # 2.3 Making necessary subset
-set_for_Mean_and_Std <- final_dataset[ , mean_and_std == TRUE]
+set_for_Mean_and_Std <- finaldataset[ , mean_and_std == TRUE]
 
-
-
+set_for_Mean_and_Std
+activityLabels
 
 # 3. Use descriptive activity names
-setWithActivityNames <- merge(setforMeanandStd, activityLabels,
+setWithActivityNames <- merge(set_for_Mean_and_Std, activityLabels,
                               by = "activityID",
                               all.x = TRUE)
+setWithActivityNames
 
 
 # 4. Label the data set with descriptive variable names
@@ -95,10 +97,11 @@ setWithActivityNames <- merge(setforMeanandStd, activityLabels,
 # 5. Creating a second,  independent tidy data set with the avg of each variable for each activity and subject
 
 # 5.1 Making a second tidy data set
-tidyDataSet <- aggregate(. ~subjectID + activityID, setWithActivityNames, FUN = "mean")
+tidyDataSet <- aggregate(. ~subjectID + activityID, set_for_Mean_and_Std, FUN= "mean")
 tidyDataSet <- tidyDataSet[order(tidyDataSet$subjectID, tidyDataSet$activityID), ]
 tidyDataSet
 
 # 5.2 Write second tidy data set into a .txt file
-write.table(tidySet, "tidySet.txt", row.names = FALSE)
+write.table(tidyDataSet, "tidyDataSet.txt", row.names = FALSE)
+
 
